@@ -11,6 +11,7 @@ using SFML.Graphics;
 using SFML.System;
 using System.Xml.Linq;
 using System.Reflection;
+using GraphicsFundation.Graphics.UI.Helpers;
 
 namespace ClientApplication.Graphics.UI
 {

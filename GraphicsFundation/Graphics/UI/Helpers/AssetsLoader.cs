@@ -1,6 +1,6 @@
 ﻿using SFML.Graphics;
 
-namespace ClientApplication.Graphics.UI
+namespace GraphicsFundation.Graphics.UI.Helpers
 {
     public static class AssetsLoader
     {

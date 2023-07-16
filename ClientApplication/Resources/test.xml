@@ -3,4 +3,5 @@
 	<img color="red" size="25;25" horizontal="right" vertical="top"/>
 	<img color="red" size="25;25" horizontal="left" vertical="bottom"/>
 	<img color="red" size="25;25" horizontal="right" vertical="bottom"/>
+	<label text="Hello world!" font-size="14" color="black"/>
 </img>

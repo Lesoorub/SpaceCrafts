@@ -4,11 +4,14 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Xml;
 using System.Xml.Serialization;
+using ClientApplication.Graphics;
+using ClientApplication.Graphics.UI;
+using GraphicsFundation.Graphics.UI.Helpers;
 using Newtonsoft.Json;
 using SFML.Graphics;
 using SFML.System;
 
-namespace ClientApplication.Graphics.UI
+namespace GraphicsFundation.Graphics.UI.Primitives
 {
     public class UI_Node : UIElement
     {
@@ -49,7 +52,7 @@ namespace ClientApplication.Graphics.UI
         {
             get
             {
-                if (this.Parent == null)
+                if (Parent == null)
                     return this;
                 var cur = this;
                 while (cur.Parent != null)
@@ -57,22 +60,22 @@ namespace ClientApplication.Graphics.UI
                 return cur;
             }
         }
-        public IEnumerable<UI_Node> Childrens => this.m_childrens;
+        public IEnumerable<UI_Node> Childrens => m_childrens;
         Vector2f AnchoredPosition
         {
             get
             {
                 float Calc1D(
-                    float size, 
+                    float size,
                     float position,
-                    float parentSize, 
-                    float parentPosition, 
-                    byte anchor, 
+                    float parentSize,
+                    float parentPosition,
+                    byte anchor,
                     byte low,
-                    byte middle, 
+                    byte middle,
                     byte high)
                 {
-                    var stretch = (high | low);
+                    var stretch = high | low;
                     if ((anchor & stretch) == stretch)
                         return parentPosition;
                     if ((anchor & low) == low)
@@ -85,27 +88,27 @@ namespace ClientApplication.Graphics.UI
                 }
 
 
-                if (this.Horizontal == HorizontalAnchor.None &&
-                    this.Vertical == VerticalAnchor.None)
-                    return this.Position;
+                if (Horizontal == HorizontalAnchor.None &&
+                    Vertical == VerticalAnchor.None)
+                    return Position;
 
                 return new Vector2f(
                     Calc1D(
-                        this.Size.X,
-                        this.Position.X,
-                        this.Parent != null ? this.Parent.AnchoredSize.X : GraphicSettings.Default.CurrentResolution.Width,
-                        this.Parent != null ? this.Parent.AnchoredPosition.X : this.Position.X,
-                        (byte)this.Horizontal,
+                        Size.X,
+                        Position.X,
+                        Parent != null ? Parent.AnchoredSize.X : GraphicSettings.Default.CurrentResolution.Width,
+                        Parent != null ? Parent.AnchoredPosition.X : Position.X,
+                        (byte)Horizontal,
                         (byte)HorizontalAnchor.Left,
                         (byte)HorizontalAnchor.Middle,
                         (byte)HorizontalAnchor.Right
                         ),
                     Calc1D(
-                        this.Size.Y,
-                        this.Position.X,
-                        this.Parent != null ? this.Parent.AnchoredSize.Y : GraphicSettings.Default.CurrentResolution.Height,
-                        this.Parent != null ? this.Parent.AnchoredPosition.Y : this.Position.Y,
-                        (byte)this.Vertical,
+                        Size.Y,
+                        Position.X,
+                        Parent != null ? Parent.AnchoredSize.Y : GraphicSettings.Default.CurrentResolution.Height,
+                        Parent != null ? Parent.AnchoredPosition.Y : Position.Y,
+                        (byte)Vertical,
                         (byte)VerticalAnchor.Top,
                         (byte)VerticalAnchor.Middle,
                         (byte)VerticalAnchor.Bottom
@@ -126,9 +129,9 @@ namespace ClientApplication.Graphics.UI
 
                 Vector2f parentSize;
 
-                if (this.Parent != null)
+                if (Parent != null)
                 {
-                    parentSize = this.Parent.Size;
+                    parentSize = Parent.Size;
                 }
                 else
                 {
@@ -139,14 +142,14 @@ namespace ClientApplication.Graphics.UI
 
                 return new Vector2f(
                     GetSize1D(
-                        this.Size.X,
+                        Size.X,
                         parentSize.X,
-                        (byte)this.Horizontal,
+                        (byte)Horizontal,
                         (byte)HorizontalAnchor.Stretch),
                     GetSize1D(
-                        this.Size.Y,
+                        Size.Y,
                         parentSize.Y,
-                        (byte)this.Vertical,
+                        (byte)Vertical,
                         (byte)VerticalAnchor.Stretch)
                     );
             }
@@ -179,30 +182,30 @@ namespace ClientApplication.Graphics.UI
         public UI_Node AddChild(UI_Node child)
         {
             child.Parent = this;
-            this.m_childrens.Add(child);
+            m_childrens.Add(child);
             return this;
         }
 
         public void RemoveParent()
         {
-            this.Parent?.m_childrens.Remove(this);
-            this.Parent = null;
+            Parent?.m_childrens.Remove(this);
+            Parent = null;
         }
 
         public UI_Node AddUIElement(UIElement child)
         {
-            this.Drawables.Add(child);
+            Drawables.Add(child);
             return this;
         }
 
         public bool TryFindNode(string name, out UI_Node result)
         {
-            if (string.Equals(this.Name, name))
+            if (string.Equals(Name, name))
             {
                 result = this;
                 return true;
             }
-            foreach (var item in this.Childrens)
+            foreach (var item in Childrens)
             {
                 if (item.TryFindNode(name, out result))
                     return true;
@@ -217,29 +220,29 @@ namespace ClientApplication.Graphics.UI
 
         public override void Draw(RenderTarget target, RenderStates states)
         {
-            var pos = this.AnchoredPosition;
-            var size = this.AnchoredSize;
-            foreach (var drawable in this.Drawables)
+            var pos = AnchoredPosition;
+            var size = AnchoredSize;
+            foreach (var drawable in Drawables)
             {
                 drawable.Position = pos;
                 drawable.Size = size;
                 drawable.Draw(target, states);
             }
-            foreach (var child in this.Childrens)
+            foreach (var child in Childrens)
                 child.Draw(target, states);
         }
-        
+
         public override XmlElement Serialize(XmlDocument document, XmlElement parent)
         {
             var node = base.Serialize(document, parent);
             node.WriteObject(new Data()
             {
-                Horizontal = this.Horizontal.ToString().ToLower(),
-                Vertical = this.Vertical.ToString().ToLower(),
-                Name = this.Name.ToString(),
+                Horizontal = Horizontal.ToString().ToLower(),
+                Vertical = Vertical.ToString().ToLower(),
+                Name = Name.ToString(),
             });
 
-            foreach (var child in this.Childrens)
+            foreach (var child in Childrens)
                 node.AppendChild(child.Serialize(document, node));
 
             return node;
@@ -252,19 +255,19 @@ namespace ClientApplication.Graphics.UI
             if (data == null) return;
 
             if (data.Name != null)
-                this.Name = data.Name;
+                Name = data.Name;
             if (data.Vertical != null)
-                Enum.TryParse(data.Vertical, ignoreCase: true, out this.Vertical);
+                Enum.TryParse(data.Vertical, ignoreCase: true, out Vertical);
             if (data.Horizontal != null)
-                Enum.TryParse(data.Horizontal, ignoreCase: true, out this.Horizontal);
+                Enum.TryParse(data.Horizontal, ignoreCase: true, out Horizontal);
 
-            if (node.Name != this.NodeName)
+            if (node.Name != NodeName)
             {
                 if (s_drawableTypes.Value.TryGetValue(node.Name, out var drawableType))
                 {
                     var el = (UIElement)Activator.CreateInstance(drawableType)!;
                     el.Deserialize(node);
-                    this.AddUIElement(el);
+                    AddUIElement(el);
                 }
             }
 
@@ -272,7 +275,7 @@ namespace ClientApplication.Graphics.UI
             {
                 var n = new UI_Node();
                 n.Deserialize(child);
-                this.AddChild(n);
+                AddChild(n);
             }
         }
 

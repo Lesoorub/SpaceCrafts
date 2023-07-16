@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ClientApplication.Properties {
+namespace GraphicsFundation.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace ClientApplication.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ClientApplication.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("GraphicsFundation.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,17 +61,12 @@ namespace ClientApplication.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на &lt;img color=&quot;green&quot; size=&quot;100;100&quot;&gt;
-        ///	&lt;img color=&quot;red&quot; size=&quot;25;25&quot; horizontal=&quot;left&quot; vertical=&quot;top&quot;/&gt;
-        ///	&lt;img color=&quot;red&quot; size=&quot;25;25&quot; horizontal=&quot;right&quot; vertical=&quot;top&quot;/&gt;
-        ///	&lt;img color=&quot;red&quot; size=&quot;25;25&quot; horizontal=&quot;left&quot; vertical=&quot;bottom&quot;/&gt;
-        ///	&lt;img color=&quot;red&quot; size=&quot;25;25&quot; horizontal=&quot;right&quot; vertical=&quot;bottom&quot;/&gt;
-        ///	&lt;label text=&quot;Hello world!&quot;/&gt;
-        ///&lt;/img&gt;.
+        ///   Поиск локализованного ресурса типа System.Byte[].
         /// </summary>
-        internal static string test {
+        internal static byte[] consolas {
             get {
-                return ResourceManager.GetString("test", resourceCulture);
+                object obj = ResourceManager.GetObject("consolas", resourceCulture);
+                return ((byte[])(obj));
             }
         }
     }

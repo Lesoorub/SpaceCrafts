@@ -2,8 +2,9 @@
 using System.Xml;
 using System.Reflection;
 using System.Text;
+using GraphicsFundation.Graphics.UI.Primitives;
 
-namespace ClientApplication.Graphics.UI
+namespace GraphicsFundation.Graphics.UI.Helpers
 {
     public static class UI_NodeXMLConverter
     {
@@ -46,11 +47,19 @@ namespace ClientApplication.Graphics.UI
                     if (!fields.TryGetValue(attr.Name, out var field))
                         continue;
                     if (field.FieldType == typeof(string))
-                        field.SetValue(t, (string)attr.Value);
+                        field.SetValue(t, attr.Value);
                     else if (field.FieldType == typeof(int) && int.TryParse(attr.Value, out var intV))
+                        field.SetValue(t, intV);
+                    else if (field.FieldType == typeof(int?) && int.TryParse(attr.Value, out intV))
                         field.SetValue(t, intV);
                     else if (field.FieldType == typeof(bool) && bool.TryParse(attr.Value, out var boolV))
                         field.SetValue(t, boolV);
+                    else if (field.FieldType == typeof(bool?) && bool.TryParse(attr.Value, out boolV))
+                        field.SetValue(t, boolV);
+                    else if (field.FieldType == typeof(uint) && uint.TryParse(attr.Value, out var uintV))
+                        field.SetValue(t, uintV);
+                    else if (field.FieldType == typeof(uint?) && uint.TryParse(attr.Value, out uintV))
+                        field.SetValue(t, uintV);
                 }
             }
             return t;

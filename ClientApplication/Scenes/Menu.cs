@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using ClientApplication.Graphics.UI;
 using ClientApplication.Properties;
+using GraphicsFundation.Graphics.UI.Helpers;
 
 namespace ClientApplication.Scenes
 {
