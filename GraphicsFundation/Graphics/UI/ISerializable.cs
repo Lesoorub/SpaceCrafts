@@ -1,8 +1,10 @@
-﻿namespace ClientApplication.Graphics.UI
+﻿using System.Xml;
+
+namespace ClientApplication.Graphics.UI
 {
     public interface ISerializable
     {
-        void Deserialize(string str);
-        string Serialize();
+        void Deserialize(XmlElement node);
+        XmlElement Serialize(XmlDocument document, XmlElement parent);
     }
 }

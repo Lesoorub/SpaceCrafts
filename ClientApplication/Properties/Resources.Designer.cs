@@ -61,12 +61,13 @@ namespace ClientApplication.Properties {
         }
         
         /// <summary>
-        ///   Поиск локализованного ресурса типа System.Byte[].
+        ///   Ищет локализованную строку, похожую на &lt;img color=&quot;green&quot; size=&quot;100;100&quot;&gt;
+        ///
+        ///&lt;/img&gt;.
         /// </summary>
-        internal static byte[] test {
+        internal static string test {
             get {
-                object obj = ResourceManager.GetObject("test", resourceCulture);
-                return ((byte[])(obj));
+                return ResourceManager.GetString("test", resourceCulture);
             }
         }
     }

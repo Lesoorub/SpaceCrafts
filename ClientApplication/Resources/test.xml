@@ -1,8 +1,6 @@
-<root>
-  <img size="200;200" color="green" horizontal="none" vertical="none">
-    <img size="25;25" color="red" horizontal="left" vertical="top"/>
-    <img size="25;25" color="red" horizontal="right" vertical="top"/>
-    <img size="25;25" color="red" horizontal="left" vertical="bottom"/>
-    <img size="25;25" color="red" horizontal="right" vertical="bottom"/>
-  </img>
-</root>
+<img color="green" size="100;100">
+	<img color="red" size="25;25" horizontal="left" vertical="top"/>
+	<img color="red" size="25;25" horizontal="right" vertical="top"/>
+	<img color="red" size="25;25" horizontal="left" vertical="bottom"/>
+	<img color="red" size="25;25" horizontal="right" vertical="bottom"/>
+</img>

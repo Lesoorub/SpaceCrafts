@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 using ClientApplication.Graphics.UI;
 using ClientApplication.Properties;
-using SFML.Graphics;
-using SFML.System;
 
 namespace ClientApplication.Scenes
 {
@@ -14,7 +8,8 @@ namespace ClientApplication.Scenes
     {
         public Menu()
         {
-            base.childrens.Add(UI_Node.from);
+            var root = UI_NodeXMLConverter.FromXml(Resources.test);
+            base.childrens.Add(root);
         }
     }
 }
