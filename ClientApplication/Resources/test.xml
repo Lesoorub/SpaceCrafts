@@ -1,0 +1,8 @@
+<root>
+  <img size="200;200" color="green" horizontal="none" vertical="none">
+    <img size="25;25" color="red" horizontal="left" vertical="top"/>
+    <img size="25;25" color="red" horizontal="right" vertical="top"/>
+    <img size="25;25" color="red" horizontal="left" vertical="bottom"/>
+    <img size="25;25" color="red" horizontal="right" vertical="bottom"/>
+  </img>
+</root>
