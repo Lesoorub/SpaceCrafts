@@ -19,6 +19,7 @@ namespace GraphicsFundation.Graphics.Forms
         private void Window_OnResized(object? sender, SFML.Window.SizeEventArgs e)
         {
             this.Size = (Vector2f)this.window.Size;
+            this.LocalPosition = this.window.CameraPosition - this.Size / 2;
         }
 
         public override void Dispose()

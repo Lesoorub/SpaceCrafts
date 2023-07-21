@@ -21,6 +21,16 @@ namespace ClientApplication.Graphics
         #region Properties
 
         public Vector2u Size => this.window.Size;
+        public Vector2f CameraPosition
+        {
+            get => this.window.GetView().Center;
+            set
+            {
+                var view = this.window.GetView();
+                view.Center = value;
+                this.window.SetView(view);
+            }
+        }
 
         #endregion
 
@@ -81,7 +91,6 @@ namespace ClientApplication.Graphics
             this.window.Size = new Vector2u(e.Width, e.Height);
             var view = this.window.GetView();
             view.Size = new Vector2f(e.Width, e.Height);
-            view.Center = new Vector2f(e.Width / 2, e.Height/2);
             this.window.SetView(view);
             this.OnResized?.Invoke(sender, e);
         }
