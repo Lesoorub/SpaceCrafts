@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ClientApplication.Properties {
+namespace BuilderGUI.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace ClientApplication.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ClientApplication.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BuilderGUI.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -67,17 +67,6 @@ namespace ClientApplication.Properties {
             get {
                 object obj = ResourceManager.GetObject("consolas", resourceCulture);
                 return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на &lt;root horizontal=&quot;stretch&quot; vertical=&quot;stretch&quot;&gt;
-        ///	&lt;img color=&quot;green&quot; size=&quot;200;200&quot; horizontal=&quot;middle&quot; vertical=&quot;stretch&quot;/&gt;
-        ///&lt;/root&gt;.
-        /// </summary>
-        internal static string test {
-            get {
-                return ResourceManager.GetString("test", resourceCulture);
             }
         }
     }

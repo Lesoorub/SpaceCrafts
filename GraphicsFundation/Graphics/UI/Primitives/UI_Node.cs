@@ -1,13 +1,9 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Text.Json.Serialization;
 using System.Xml;
 using System.Xml.Serialization;
 using ClientApplication.Graphics;
 using ClientApplication.Graphics.UI;
 using GraphicsFundation.Graphics.UI.Helpers;
-using Newtonsoft.Json;
 using SFML.Graphics;
 using SFML.System;
 
@@ -52,7 +48,7 @@ namespace GraphicsFundation.Graphics.UI.Primitives
         {
             get
             {
-                if (Parent == null)
+                if (this.Parent == null)
                     return this;
                 var cur = this;
                 while (cur.Parent != null)
@@ -60,7 +56,7 @@ namespace GraphicsFundation.Graphics.UI.Primitives
                 return cur;
             }
         }
-        public IEnumerable<UI_Node> Childrens => m_childrens;
+        public IEnumerable<UI_Node> Childrens => this.m_childrens;
         Vector2f AnchoredPosition
         {
             get
@@ -88,27 +84,27 @@ namespace GraphicsFundation.Graphics.UI.Primitives
                 }
 
 
-                if (Horizontal == HorizontalAnchor.None &&
-                    Vertical == VerticalAnchor.None)
-                    return Position;
+                if (this.Horizontal == HorizontalAnchor.None &&
+                    this.Vertical == VerticalAnchor.None)
+                    return this.Position;
 
                 return new Vector2f(
                     Calc1D(
-                        Size.X,
-                        Position.X,
-                        Parent != null ? Parent.AnchoredSize.X : GraphicSettings.Default.CurrentResolution.Width,
-                        Parent != null ? Parent.AnchoredPosition.X : Position.X,
-                        (byte)Horizontal,
+                        this.Size.X,
+                        this.Position.X,
+                        this.Parent != null ? this.Parent.AnchoredSize.X : GraphicSettings.Default.CurrentResolution.Width,
+                        this.Parent != null ? this.Parent.Position.X : this.Position.X,
+                        (byte)this.Horizontal,
                         (byte)HorizontalAnchor.Left,
                         (byte)HorizontalAnchor.Middle,
                         (byte)HorizontalAnchor.Right
                         ),
                     Calc1D(
-                        Size.Y,
-                        Position.X,
-                        Parent != null ? Parent.AnchoredSize.Y : GraphicSettings.Default.CurrentResolution.Height,
-                        Parent != null ? Parent.AnchoredPosition.Y : Position.Y,
-                        (byte)Vertical,
+                        this.Size.Y,
+                        this.Position.X,
+                        this.Parent != null ? this.Parent.AnchoredSize.Y : GraphicSettings.Default.CurrentResolution.Height,
+                        this.Parent != null ? this.Parent.Position.Y : this.Position.Y,
+                        (byte)this.Vertical,
                         (byte)VerticalAnchor.Top,
                         (byte)VerticalAnchor.Middle,
                         (byte)VerticalAnchor.Bottom

@@ -1,5 +1,8 @@
 ﻿using ClientApplication.Graphics;
+using ClientApplication.Properties;
 using ClientApplication.Scenes;
+using GuiPrimitives;
+using SFML.Graphics;
 
 public static class Program
 {
@@ -7,7 +10,7 @@ public static class Program
     {
         using (var window = new ClientWindow())
         {
-            window.Drawable = new Menu();
+            window.Drawable = new Menu(window);
             window.Run();
         }
     }

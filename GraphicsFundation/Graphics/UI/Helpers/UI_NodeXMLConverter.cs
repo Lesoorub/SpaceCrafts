@@ -60,6 +60,14 @@ namespace GraphicsFundation.Graphics.UI.Helpers
                         field.SetValue(t, uintV);
                     else if (field.FieldType == typeof(uint?) && uint.TryParse(attr.Value, out uintV))
                         field.SetValue(t, uintV);
+                    else if (field.FieldType == typeof(float) && float.TryParse(attr.Value, out var floatV))
+                        field.SetValue(t, floatV);
+                    else if (field.FieldType == typeof(float?) && float.TryParse(attr.Value, out floatV))
+                        field.SetValue(t, floatV);
+                    else if (field.FieldType == typeof(double) && double.TryParse(attr.Value, out var doubleV))
+                        field.SetValue(t, doubleV);
+                    else if (field.FieldType == typeof(double?) && double.TryParse(attr.Value, out doubleV))
+                        field.SetValue(t, doubleV);
                 }
             }
             return t;

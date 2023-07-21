@@ -18,10 +18,17 @@ namespace ClientApplication.Graphics
 
         #endregion
 
+        #region Properties
+
+        public Vector2u Size => this.window.Size;
+
+        #endregion
+
         #region Events
 
         public event Action? OnClosing;
         public event Action? OnClosed;
+        public event EventHandler<SizeEventArgs>? OnResized;
 
         #endregion
 
@@ -71,7 +78,8 @@ namespace ClientApplication.Graphics
 
         private void Window_Resized(object? sender, SizeEventArgs e)
         {
-            //this.window.
+            this.window.Size = new Vector2u(e.Width, e.Height);
+            this.OnResized?.Invoke(sender, e);
         }
 
         #endregion
