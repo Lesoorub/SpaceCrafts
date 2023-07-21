@@ -79,6 +79,10 @@ namespace ClientApplication.Graphics
         private void Window_Resized(object? sender, SizeEventArgs e)
         {
             this.window.Size = new Vector2u(e.Width, e.Height);
+            var view = this.window.GetView();
+            view.Size = new Vector2f(e.Width, e.Height);
+            view.Center = new Vector2f(e.Width / 2, e.Height/2);
+            this.window.SetView(view);
             this.OnResized?.Invoke(sender, e);
         }
 

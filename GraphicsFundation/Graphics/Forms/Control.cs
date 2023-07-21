@@ -154,6 +154,7 @@ namespace GraphicsFundation.Graphics.Forms
         {
             if (control == this) return;
             control.m_parent = this;
+            this.Changed += control.Control_ParentChanged;
             this.Childrens.Add(control);
             this.Changed?.Invoke();
         }
