@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using ClientApplication.Graphics;
-using ClientApplication.Graphics.UI;
 using ClientApplication.Properties;
 using GraphicsFundation.Graphics.Forms;
 using SFML.Graphics;
