@@ -2,6 +2,7 @@
 using ClientApplication.Graphics;
 using SFML.Graphics;
 using SFML.System;
+using SFML.Window;
 
 namespace GraphicsFundation.Graphics.Forms
 {
@@ -9,6 +10,9 @@ namespace GraphicsFundation.Graphics.Forms
     {
         Stopwatch clock = new Stopwatch();
         public readonly ClientWindow window;
+
+        Control? m_lastPressedControl;
+        Mouse.Button? m_lastPressedMouseButton;
 
         public Form(ClientWindow window)
         {
@@ -21,20 +25,32 @@ namespace GraphicsFundation.Graphics.Forms
             this.window.MouseMoved += this.Window_MouseMoved;
         }
 
-        private void Window_MouseButtonReleased(object? sender, SFML.Window.MouseButtonEventArgs e)
+        private void Window_MouseButtonReleased(object? sender, MouseButtonEventArgs e)
         {
-            this.ProcessMouseReleasedEvent(e.X + (int)this.LocalPosition.X, e.Y + (int)this.LocalPosition.Y, e.Button);
+            var x = e.X + (int)this.LocalPosition.X;
+            var y = e.Y + (int)this.LocalPosition.Y;
+            this.ProcessMouseReleasedEvent(x, y, e.Button);
+            if (this.m_lastPressedMouseButton == e.Button &&
+                this.m_lastPressedControl != null &&
+                this.GetHovered(x, y) == this.m_lastPressedControl)
+            {
+                this.m_lastPressedControl.ProcessClick(e.Button);
+            }
+        }
+        private void Window_MouseButtonPressed(object? sender, MouseButtonEventArgs e)
+        {
+            var x = e.X + (int)this.LocalPosition.X;
+            var y = e.Y + (int)this.LocalPosition.Y;
+            this.ProcessMousePressedEvent(x, y, e.Button);
+            this.m_lastPressedControl = this.GetHovered(x, y);
+            this.m_lastPressedMouseButton = e.Button;
         }
 
-        private void Window_MouseMoved(object? sender, SFML.Window.MouseMoveEventArgs e)
+        private void Window_MouseMoved(object? sender, MouseMoveEventArgs e)
         {
             this.ProcessMouseMovedEvent(e.X + (int)this.LocalPosition.X, e.Y + (int)this.LocalPosition.Y);
         }
 
-        private void Window_MouseButtonPressed(object? sender, SFML.Window.MouseButtonEventArgs e)
-        {
-            this.ProcessMousePressedEvent(e.X + (int)this.LocalPosition.X, e.Y + (int)this.LocalPosition.Y, e.Button);
-        }
 
         private void Window_CameraPositionChanged(Vector2f obj)
         {

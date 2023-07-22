@@ -6,6 +6,7 @@ namespace GraphicsFundation.Graphics.Forms
     {
         public readonly Rectangle Background = new Rectangle();
         public readonly Label Label = new Label();
+
         public Color HoveredBackColor = new Color(0x333333FF);
         public Color NormalBackColor = new Color(0x222222FF);
         public Color PressedBackColor = new Color(0xFFFFFFFF);
@@ -19,12 +20,14 @@ namespace GraphicsFundation.Graphics.Forms
             this.Background.FillColor = this.NormalBackColor;
             this.Background.OutlineColor = this.NormalForeColor;
             this.Background.OutlineThickness = 1;
+            this.Background.IsHoverable = false;
             this.AddChild(this.Background);
 
             this.Label.ForeColor = this.NormalForeColor;
-            this.AddChild(this.Label);
+            this.Label.IsHoverable = false;
             this.Label.Horizontal = Label.HorizontalAligment.Middle;
             this.Label.Vertical = Label.VerticalAligment.Middle;
+            this.AddChild(this.Label);
 
             this.Background.Dock = Dock.Fill;
             this.Label.Dock = Dock.Fill;
@@ -62,6 +65,7 @@ namespace GraphicsFundation.Graphics.Forms
             this.MouseLeave -= this.OnMouseLeave;
             this.MousePressed -= this.OnMousePressed;
             this.MouseReleased -= this.OnMouseReleased;
+
             base.Dispose();
         }
 

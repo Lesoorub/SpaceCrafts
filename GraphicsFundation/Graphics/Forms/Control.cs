@@ -18,15 +18,15 @@ namespace GraphicsFundation.Graphics.Forms
         private Vector2f m_position;
 
         event Action? Changed;
-        public EventHandler<Mouse.Button>? MousePressed;
-        public EventHandler<Mouse.Button>? MouseReleased;
-        [Obsolete("Not working")]
-        public EventHandler<Mouse.Button>? Click;
-        public EventHandler? MouseMoved;
-        public EventHandler? MouseEnter;
-        public EventHandler? MouseLeave;
+        public event EventHandler<Mouse.Button>? MousePressed;
+        public event EventHandler<Mouse.Button>? MouseReleased;
+        public event EventHandler<Mouse.Button>? Click;
+        public event EventHandler? MouseMoved;
+        public event EventHandler? MouseEnter;
+        public event EventHandler? MouseLeave;
 
         public bool IsMouseHovered { get; private set; }
+
         public Dock Dock
         {
             get => this.m_dock;
@@ -99,6 +99,7 @@ namespace GraphicsFundation.Graphics.Forms
                 }
             }
         }
+
         public virtual Vector2f LocalPosition
         {
             get => this.m_position;
@@ -108,6 +109,7 @@ namespace GraphicsFundation.Graphics.Forms
                 this.Changed?.Invoke();
             }
         }
+
         public virtual Vector2f Size
         {
             get => this.m_size;
@@ -117,7 +119,9 @@ namespace GraphicsFundation.Graphics.Forms
                 this.Changed?.Invoke();
             }
         }
+
         public virtual FloatRect Bounds => new FloatRect(this.GlobalPosition, this.Size);
+
         public Control? Parent
         {
             get => this.m_parent;
@@ -139,7 +143,9 @@ namespace GraphicsFundation.Graphics.Forms
                 this.Changed?.Invoke();
             }
         }
+
         public Control[] Controls => this.Childrens.ToArray();
+
         public Vector2f GlobalPosition
         {
             get
@@ -158,6 +164,7 @@ namespace GraphicsFundation.Graphics.Forms
                 this.LocalPosition = value;
             }
         }
+
         public Control Root
         {
             get
@@ -168,7 +175,8 @@ namespace GraphicsFundation.Graphics.Forms
                 return current;
             }
         }
-        public virtual bool IsHoverable { get; set; }
+
+        public virtual bool IsHoverable { get; set; } = true;
 
         public void AddChild(Control control)
         {
@@ -178,11 +186,13 @@ namespace GraphicsFundation.Graphics.Forms
             this.Childrens.Add(control);
             this.Changed?.Invoke();
         }
+
         public virtual bool IsHover(int x, int y)
         {
             var b = this.Bounds;
             return b.Contains(x, y);
         }
+
         public virtual Control? GetHovered(int x, int y)
         {
             foreach (var child in this.Childrens)
@@ -201,11 +211,13 @@ namespace GraphicsFundation.Graphics.Forms
             foreach (var child in this.Childrens)
                 child.Update(deltaTime);
         }
+
         public virtual void Draw(RenderTarget target, RenderStates states)
         {
             foreach (var child in this.Childrens)
                 child.Draw(target, states);
         }
+
         private void Control_ParentChanged()
         {
             this.Dock = this.m_dock;
@@ -252,6 +264,11 @@ namespace GraphicsFundation.Graphics.Forms
             foreach (var child in this.Childrens)
                 if (child.IsHover(x, y))
                     child.ProcessMouseReleasedEvent(x, y, button);
+        }
+
+        public void ProcessClick(Mouse.Button button)
+        {
+            this.Click?.Invoke(this, button);
         }
 
         public virtual void Dispose()
