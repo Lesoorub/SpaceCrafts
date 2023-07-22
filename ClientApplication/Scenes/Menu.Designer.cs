@@ -40,6 +40,9 @@ namespace ClientApplication.Scenes
             this.button1.Label.FontSize = 24;
             this.button1.Click += (s, e) =>
             {
+                this.image1.Size = new Vector2f(100, 200);
+                this.image2.Size = new Vector2f(200, 200);
+                this.image3.Size = new Vector2f(200, 100);
                 var vals = (PictureStretch[])Enum.GetValues(typeof(PictureStretch));
                 this.image1.SizeMode = 
                 this.image2.SizeMode = 
