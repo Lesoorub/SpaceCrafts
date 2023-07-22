@@ -29,6 +29,7 @@ namespace ClientApplication.Graphics
                 var view = this.window.GetView();
                 view.Center = value;
                 this.window.SetView(view);
+                CameraPositionChanged?.Invoke(value);
             }
         }
 
@@ -39,6 +40,10 @@ namespace ClientApplication.Graphics
         public event Action? OnClosing;
         public event Action? OnClosed;
         public event EventHandler<SizeEventArgs>? OnResized;
+        public event Action<Vector2f>? CameraPositionChanged;
+        public event EventHandler<MouseMoveEventArgs> MouseMoved;
+        public event EventHandler<MouseButtonEventArgs> MouseButtonReleased;
+        public event EventHandler<MouseButtonEventArgs> MouseButtonPressed;
 
         #endregion
 
@@ -73,6 +78,11 @@ namespace ClientApplication.Graphics
 
         public void Dispose()
         {
+            this.window.Closed -= this.Window_Closed;
+            this.window.Resized -= this.Window_Resized;
+            this.window.MouseButtonPressed -= this.Window_MouseButtonPressed;
+            this.window.MouseButtonReleased -= this.Window_MouseButtonReleased;
+            this.window.MouseMoved -= this.Window_MouseMoved;
             this.window.Dispose();
         }
 
@@ -84,6 +94,24 @@ namespace ClientApplication.Graphics
         {
             this.window.Closed += this.Window_Closed;
             this.window.Resized += this.Window_Resized;
+            this.window.MouseButtonPressed += this.Window_MouseButtonPressed;
+            this.window.MouseButtonReleased += this.Window_MouseButtonReleased;
+            this.window.MouseMoved += this.Window_MouseMoved;
+        }
+
+        private void Window_MouseMoved(object? sender, MouseMoveEventArgs e)
+        {
+            MouseMoved?.Invoke(this, e);
+        }
+
+        private void Window_MouseButtonReleased(object? sender, MouseButtonEventArgs e)
+        {
+            MouseButtonReleased?.Invoke(this, e);
+        }
+
+        private void Window_MouseButtonPressed(object? sender, MouseButtonEventArgs e)
+        {
+            MouseButtonPressed?.Invoke(this, e);
         }
 
         private void Window_Resized(object? sender, SizeEventArgs e)

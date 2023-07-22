@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SFML.Graphics;
 using SFML.System;
+using SFML.Window;
 
 namespace GraphicsFundation.Graphics.Forms
 {
@@ -17,7 +18,15 @@ namespace GraphicsFundation.Graphics.Forms
         private Vector2f m_position;
 
         event Action? Changed;
+        public EventHandler<Mouse.Button>? MousePressed;
+        public EventHandler<Mouse.Button>? MouseReleased;
+        [Obsolete("Not working")]
+        public EventHandler<Mouse.Button>? Click;
+        public EventHandler? MouseMoved;
+        public EventHandler? MouseEnter;
+        public EventHandler? MouseLeave;
 
+        public bool IsMouseHovered { get; private set; }
         public Dock Dock
         {
             get => this.m_dock;
@@ -149,7 +158,18 @@ namespace GraphicsFundation.Graphics.Forms
                 this.LocalPosition = value;
             }
         }
+        public Control Root
+        {
+            get
+            {
+                Control current = this;
+                while (current.m_parent != null)
+                    current = current.m_parent;
+                return current;
+            }
+        }
         public virtual bool IsHoverable { get; set; }
+
         public void AddChild(Control control)
         {
             if (control == this) return;
@@ -190,6 +210,48 @@ namespace GraphicsFundation.Graphics.Forms
         {
             this.Dock = this.m_dock;
             this.Changed?.Invoke();
+        }
+
+        public void ProcessMouseMovedEvent(int x, int y)
+        {
+            if (this.IsHover(x, y))
+            {
+                this.MouseMoved?.Invoke(this, new EventArgs());
+                if (!this.IsMouseHovered)
+                {
+                    this.IsMouseHovered = true;
+                    this.MouseEnter?.Invoke(this, new EventArgs());
+                }
+            }
+            else
+            {
+                if (this.IsMouseHovered)
+                {
+                    this.IsMouseHovered = false;
+                    this.MouseLeave?.Invoke(this, new EventArgs());
+                }
+            }
+
+            foreach (var child in this.Childrens)
+                child.ProcessMouseMovedEvent(x, y);
+        }
+
+        public void ProcessMousePressedEvent(int x, int y, Mouse.Button button)
+        {
+            if (this.IsHover(x, y))
+                this.MousePressed?.Invoke(this, button);
+            foreach (var child in this.Childrens)
+                if (child.IsHover(x, y))
+                    child.ProcessMousePressedEvent(x, y, button);
+        }
+
+        public void ProcessMouseReleasedEvent(int x, int y, Mouse.Button button)
+        {
+            if (this.IsHover(x, y))
+                this.MouseReleased?.Invoke(this, button);
+            foreach (var child in this.Childrens)
+                if (child.IsHover(x, y))
+                    child.ProcessMouseReleasedEvent(x, y, button);
         }
 
         public virtual void Dispose()

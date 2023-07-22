@@ -15,6 +15,7 @@ namespace ClientApplication.Scenes
         Rectangle rect2;
         Rectangle rect3;
         Label label1;
+        Button button1;
         public void InitComponents()
         {
             this.rect1 = new Rectangle();
@@ -28,6 +29,12 @@ namespace ClientApplication.Scenes
             this.rect3.FillColor = Color.Red;
             this.rect1.AddChild(this.rect3);
             this.rect3.Dock = Dock.HorizontalMiddle;
+
+            this.button1 = new Button();
+            this.button1.GlobalPosition = new Vector2f(100, 100);
+            this.button1.Size = new Vector2f(200, 50);
+            this.button1.Label.Text = "Click me!";
+            this.AddChild(this.button1);
 
             //this.label1 = new Label();
             //this.label1.Text = "Hello world";
