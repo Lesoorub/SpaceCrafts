@@ -116,7 +116,9 @@ namespace GraphicsFundation.Graphics.Forms
                         break;
                 }
             }
-            this.text.Position = pos;
+
+            this.text.Position = (Vector2f)(Vector2i)pos;
+
             target.Draw(this.text);
             base.Draw(target, states);
         }

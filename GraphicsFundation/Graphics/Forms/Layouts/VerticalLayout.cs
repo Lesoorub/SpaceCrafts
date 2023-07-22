@@ -33,7 +33,7 @@ namespace GraphicsFundation.Graphics.Forms.Layouts
             {
                 ref var child = ref controls[k];
                 child.LocalPosition = new Vector2f(zero.X, cursor);
-                child.Size = new Vector2f(this.Size.X - this.Margin.Left - this.Margin.Right, child.Size.Y);
+                child.Size = new Vector2f(this.Size.X - this.Padding.Left - this.Padding.Right - child.Margin.Left - child.Margin.Right, child.Size.Y);
                 cursor += child.Size.Y + this.Spacing + child.Margin.Top + child.Margin.Bottom;
             }
         }

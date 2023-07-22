@@ -1,4 +1,5 @@
 ﻿using SFML.Graphics;
+using static GraphicsFundation.Graphics.Forms.Button;
 
 namespace GraphicsFundation.Graphics.Forms
 {
@@ -17,7 +18,7 @@ namespace GraphicsFundation.Graphics.Forms
 
         public Button()
         {
-            this.UpdateColors();
+            this.SetState(State.Normal);
             this.Background.OutlineThickness = 1;
             this.Background.IsHoverable = false;
             this.AddChild(this.Background);
@@ -30,47 +31,64 @@ namespace GraphicsFundation.Graphics.Forms
             this.Background.Dock = Dock.Fill;
             this.Label.Dock = Dock.Fill;
 
+            this.AddBaseHandlers();
+        }
+
+        public void SetState(State newState)
+        {
+            this.Background.OutlineColor = this.NormalForeColor;
+            switch (newState)
+            {
+                case State.Normal:
+                    this.Background.FillColor = this.NormalBackColor;
+                    this.Label.ForeColor = this.NormalForeColor;
+                    break;
+                case State.Hovered:
+                    this.Background.FillColor = this.HoveredBackColor;
+                    this.Label.ForeColor = this.HoveredForeColor;
+                    break;
+                case State.Pressed:
+                    this.Background.FillColor = this.PressedBackColor;
+                    this.Label.ForeColor = this.PressedForeColor;
+                    break;
+            }
+        }
+
+        public void AddBaseHandlers()
+        {
             this.MouseEnter += this.OnMouseEnter;
             this.MouseLeave += this.OnMouseLeave;
             this.MousePressed += this.OnMousePressed;
             this.MouseReleased += this.OnMouseReleased;
         }
-
-        public void UpdateColors()
-        {
-            this.Background.FillColor = this.NormalBackColor;
-            this.Background.OutlineColor = this.NormalForeColor;
-
-            this.Label.ForeColor = this.NormalForeColor;
-        }
-
-        private void OnMouseEnter(object? sender, EventArgs e)
-        {
-            this.Background.FillColor = this.HoveredBackColor;
-            this.Label.ForeColor = this.HoveredForeColor;
-        }
-        private void OnMouseLeave(object? sender, EventArgs e)
-        {
-            this.Background.FillColor = this.NormalBackColor;
-            this.Label.ForeColor = this.NormalForeColor;
-        }
-        private void OnMousePressed(object? sender, SFML.Window.Mouse.Button button)
-        {
-            this.Background.FillColor = this.PressedBackColor;
-            this.Label.ForeColor = this.PressedForeColor;
-        }
-        private void OnMouseReleased(object? sender, SFML.Window.Mouse.Button button)
-        {
-            this.Background.FillColor = this.HoveredBackColor;
-            this.Label.ForeColor = this.HoveredForeColor;
-        }
-
-        public override void Dispose()
+        public void SubtractBaseHandlers()
         {
             this.MouseEnter -= this.OnMouseEnter;
             this.MouseLeave -= this.OnMouseLeave;
             this.MousePressed -= this.OnMousePressed;
             this.MouseReleased -= this.OnMouseReleased;
+        }
+
+        private void OnMouseEnter(object? sender, EventArgs e)
+        {
+            this.SetState(State.Hovered);
+        }
+        private void OnMouseLeave(object? sender, EventArgs e)
+        {
+            this.SetState(State.Normal);
+        }
+        private void OnMousePressed(object? sender, SFML.Window.Mouse.Button button)
+        {
+            this.SetState(State.Pressed);
+        }
+        private void OnMouseReleased(object? sender, SFML.Window.Mouse.Button button)
+        {
+            this.SetState(State.Normal);
+        }
+
+        public override void Dispose()
+        {
+            this.SubtractBaseHandlers();
 
             base.Dispose();
         }
@@ -78,6 +96,13 @@ namespace GraphicsFundation.Graphics.Forms
         public override void Draw(RenderTarget target, RenderStates states)
         {
             base.Draw(target, states);
+        }
+
+        public enum State
+        {
+            Normal = 0,
+            Hovered,
+            Pressed
         }
     }
 }

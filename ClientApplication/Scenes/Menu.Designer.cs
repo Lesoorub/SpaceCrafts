@@ -43,22 +43,22 @@ namespace ClientApplication.Scenes
 
             this.newGameBtn = new Button();
             this.newGameBtn.Label.Text = "New game";
-            this.newGameBtn.Size = new Vector2f(190, 50);
+            this.newGameBtn.Size = new Vector2f(0, 50);
             this.newGameBtn.Parent = this.menuLayout;
 
             this.loadGameBtn = new Button();
             this.loadGameBtn.Label.Text = "Load game";
-            this.loadGameBtn.Size = new Vector2f(190, 50);
+            this.loadGameBtn.Size = new Vector2f(0, 50);
             this.loadGameBtn.Parent = this.menuLayout;
 
             this.settingsBtn = new Button();
             this.settingsBtn.Label.Text = "Settings";
-            this.settingsBtn.Size = new Vector2f(190, 50);
+            this.settingsBtn.Size = new Vector2f(0, 50);
             this.settingsBtn.Parent = this.menuLayout;
 
             this.quitBtn = new Button();
             this.quitBtn.Label.Text = "Quit";
-            this.quitBtn.Size = new Vector2f(190, 50);
+            this.quitBtn.Size = new Vector2f(0, 50);
             this.quitBtn.Parent = this.menuLayout;
 
             this.debugPanel = new DebugPanel();

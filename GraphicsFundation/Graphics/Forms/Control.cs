@@ -25,6 +25,8 @@ namespace GraphicsFundation.Graphics.Forms
         public event EventHandler? MouseEnter;
         public event EventHandler? MouseLeave;
 
+        public bool Visible { get; set; } = true;
+
         public bool IsMouseHovered { get; private set; }
 
         public Dock Dock
@@ -216,19 +218,16 @@ namespace GraphicsFundation.Graphics.Forms
 
         public virtual Control? GetHovered(int x, int y)
         {
-            if (this.IsHoverable)
+            if (!this.Visible) return null;
+            for (int i = this.Childrens.Count - 1; i >= 0; i--)
             {
-                for (int i = this.Childrens.Count - 1; i >= 0; i--)
-                {
-                    var child = this.Childrens[index: i];
-                    var c = child.GetHovered(x, y);
-                    if (c != null)
-                        return c;
-                }
-
-                if (this.IsHover(x, y))
-                    return this;
+                var child = this.Childrens[index: i];
+                var c = child.GetHovered(x, y);
+                if (c != null)
+                    return c;
             }
+            if (this.IsHoverable && this.IsHover(x, y))
+                return this;
             return null;
         }
 
@@ -241,7 +240,8 @@ namespace GraphicsFundation.Graphics.Forms
         public virtual void Draw(RenderTarget target, RenderStates states)
         {
             foreach (var child in this.Childrens)
-                child.Draw(target, states);
+                if (child.Visible)
+                    child.Draw(target, states);
         }
 
         private void Control_ParentChanged()

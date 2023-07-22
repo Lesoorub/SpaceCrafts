@@ -41,9 +41,9 @@ namespace ClientApplication.Graphics
         public event Action? OnClosed;
         public event EventHandler<SizeEventArgs>? OnResized;
         public event Action<Vector2f>? CameraPositionChanged;
-        public event EventHandler<MouseMoveEventArgs> MouseMoved;
-        public event EventHandler<MouseButtonEventArgs> MouseButtonReleased;
-        public event EventHandler<MouseButtonEventArgs> MouseButtonPressed;
+        public event EventHandler<MouseMoveEventArgs>? MouseMoved;
+        public event EventHandler<MouseButtonEventArgs>? MouseButtonReleased;
+        public event EventHandler<MouseButtonEventArgs>? MouseButtonPressed;
 
         #endregion
 
