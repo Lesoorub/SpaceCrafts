@@ -15,6 +15,9 @@ namespace GraphicsFundation.Graphics.Forms
         Mouse.Button? m_lastPressedMouseButton;
 
         Vector2i m_mousePosition;
+        private Vector2f m_movingOffset;
+        private Control? m_movingControl;
+
         public Vector2i MousePosition
         {
             get => this.m_mousePosition;
@@ -57,6 +60,8 @@ namespace GraphicsFundation.Graphics.Forms
         {
             this.MousePosition = new Vector2i(e.X, e.Y);
             this.ProcessMouseMovedEvent(this.MousePosition.X, this.MousePosition.Y);
+            if (this.m_movingControl != null)
+                this.MovingUpdate();
         }
 
 
@@ -94,5 +99,22 @@ namespace GraphicsFundation.Graphics.Forms
             base.Update(deltaTime);
             base.Draw(target, states);
         }
+        public void BeginMoving(Control movingControl)
+        {
+            this.m_movingControl = movingControl;
+            this.m_movingOffset = this.m_movingControl.GlobalPosition - (Vector2f)this.m_mousePosition;
+        }
+
+        public void MovingUpdate()
+        {
+            if (this.m_movingControl == null) return;
+            this.m_movingControl.GlobalPosition = (Vector2f)this.m_mousePosition + this.m_movingOffset;
+        }
+
+        public void EndMoving()
+        {
+            this.m_movingControl = null;
+        }
+
     }
 }

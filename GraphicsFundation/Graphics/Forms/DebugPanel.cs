@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using GraphicsFundation.Graphics.Forms.Layouts;
@@ -46,6 +47,8 @@ namespace GraphicsFundation.Graphics.Forms
             this.Header.OutlineThickness = 1;
             this.Header.Size = new Vector2f(x: 0, y: 20);
             this.Header.Dock = Dock.HorizontalTop;
+            this.Header.MousePressed += this.Header_MousePressed;
+            this.Header.MouseReleased += this.Header_MouseReleased;
 
             this.HeaderLabel = new Label();
             this.HeaderLabel.Parent = this.Header;
@@ -55,11 +58,11 @@ namespace GraphicsFundation.Graphics.Forms
             this.HeaderLabel.Dock = Dock.Fill;
             this.HeaderLabel.FontSize = 14;
             this.HeaderLabel.Margin = new Padding(left: 3, top: 3, right: 0, bottom: 0);
+            this.HeaderLabel.IsHoverable = false;
 
             this.CollapseBtn = new Button();
             this.CollapseBtn.Parent = this.Header;
             this.CollapseBtn.Label.FontSize = 14;
-            this.CollapseBtn.Label.Text = "_";
             this.CollapseBtn.Size = new Vector2f(this.Header.Size.Y, this.Header.Size.Y);
             this.CollapseBtn.NormalBackColor = Color.Transparent;
             this.CollapseBtn.HoveredBackColor = new Color(0xFFFFFF33);
@@ -81,6 +84,7 @@ namespace GraphicsFundation.Graphics.Forms
             this.Body.OutlineColor = this.OutlineColor;
             this.Body.OutlineThickness = 1;
             this.Body.Dock = Dock.Fill;
+            this.Body.Visible = false;
 
             this.BodyLayout = new VerticalLayout();
             this.BodyLayout.Parent = this.Body;
@@ -120,6 +124,19 @@ namespace GraphicsFundation.Graphics.Forms
             this.boundsView = new VertexArray(PrimitiveType.LineStrip, 5);
             this.sizeView = new VertexArray(PrimitiveType.LineStrip, 5);
 
+            this.SetWindowVisible(this.Body.Visible);
+        }
+
+        private void Header_MouseReleased(object? sender, Mouse.Button e)
+        {
+            if (this.Root is Form form)
+                form.EndMoving();
+        }
+
+        private void Header_MousePressed(object? sender, Mouse.Button e)
+        {
+            if (this.Root is Form form)
+                form.BeginMoving(this);
         }
 
         private void ToggleSizeView_Click(object? sender, Mouse.Button e)
@@ -132,6 +149,17 @@ namespace GraphicsFundation.Graphics.Forms
         {
             this.ShowBoudns = !this.ShowBoudns;
             this.ToggleBoundView.SetState(this.ShowBoudns ? Button.State.Pressed : Button.State.Normal);
+        }
+
+        private void CollapseBtn_Click(object? sender, Mouse.Button e)
+        {
+            this.SetWindowVisible(!this.Body.Visible);
+        }
+
+        public void SetWindowVisible(bool visible)
+        {
+            this.Body.Visible = visible;
+            this.CollapseBtn.Label.Text = visible ? "_" : "#";
         }
 
         public override void Update(float deltaTime)
@@ -157,7 +185,7 @@ namespace GraphicsFundation.Graphics.Forms
                 this.boundsView.Draw(target, states);
         }
 
-        public void UpdateInfo(Control target) 
+        public void UpdateInfo(Control target)
         {
             this.TypeLabel.Text = $"Type: {target.GetType().Name}";
             var c = target.Controls;
@@ -198,16 +226,13 @@ namespace GraphicsFundation.Graphics.Forms
             array[index: 4] = vertex;
         }
 
-        private void CollapseBtn_Click(object? sender, Mouse.Button e)
-        {
-            this.Body.Visible = !this.Body.Visible;
-            this.CollapseBtn.Label.Text = this.Body.Visible ? "_" : "#";
-        }
-
         public override void Dispose()
         {
+            this.CollapseBtn.Click -= this.CollapseBtn_Click;
             this.ToggleBoundView.Click -= this.ToggleBoundView_Click;
             this.ToggleSizeView.Click -= this.ToggleSizeView_Click;
+            this.Header.MousePressed -= this.Header_MousePressed;
+            this.Header.MouseReleased -= this.Header_MouseReleased;
             base.Dispose();
         }
     }
