@@ -2,7 +2,6 @@
 using GraphicsFundation.Graphics.Resources;
 using SFML.Graphics;
 using SFML.System;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace GraphicsFundation.Graphics.Forms
 {
@@ -53,6 +52,8 @@ namespace GraphicsFundation.Graphics.Forms
 
         public override void Draw(RenderTarget target, RenderStates states)
         {
+            if (this.TexturePath == null)
+            {
                 var vertex = noImage[0];
                 vertex.Position = this.GlobalPosition;
                 noImage[0] = vertex;
@@ -71,8 +72,6 @@ namespace GraphicsFundation.Graphics.Forms
                 vertex.Position = this.GlobalPosition + new Vector2f(this.Size.X, 0);
                 noImage[7] = vertex;
                 noImage.Draw(target, states);
-            if (this.TexturePath == null)
-            {
             }
             else
             {
