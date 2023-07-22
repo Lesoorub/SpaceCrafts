@@ -75,10 +75,12 @@ namespace GraphicsFundation.Graphics.Forms
             }
             else
             {
-                this.sprite.Position = new Vector2f(0, 0);
-                this.sprite.Scale = new Vector2f(1, 1);
                 switch (this.SizeMode)
                 {
+                    default:
+                        this.sprite.Position = new Vector2f(0, 0);
+                        this.sprite.Scale = new Vector2f(1, 1);
+                        break;
                     case PictureStretch.Normal:
                         this.sprite.Position = this.GlobalPosition;
                         this.sprite.Scale = new Vector2f(1, 1);
@@ -107,6 +109,7 @@ namespace GraphicsFundation.Graphics.Forms
             base.Draw(target, states);
         }
     }
+
     public enum PictureStretch
     {
         /// <summary>
@@ -114,21 +117,25 @@ namespace GraphicsFundation.Graphics.Forms
         /// image is clipped if it is larger than the PictureBox it is contained in.
         /// </summary>
         Normal = 0,
+
         /// <summary>
         /// The image within the PictureBox is stretched or shrunk to fit the size 
         /// of the PictureBox.
         /// </summary>
         StretchImage = 1,
+
         /// <summary>
         /// The PictureBox is sized equal to the size of the image that it contains.`
         /// </summary>
         AutoSize = 2,
+
         /// <summary>
         /// The image is displayed in the center if the PictureBox is larger than
         /// the image. If the image is larger than the PictureBox, the picture is
         /// placed in the center of the PictureBox and the outside edges are clipped.
         /// </summary>
         CenterImage = 3,
+
         /// <summary>
         /// The size of the image is increased or decreased maintaining the size ratio.
         /// </summary>

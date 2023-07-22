@@ -12,5 +12,6 @@
         HorizontalBottom = 7,
         VerticalLeft = 8,
         VerticalRight = 9,
+        Middle = 10,
     }
 }

@@ -33,66 +33,84 @@ namespace GraphicsFundation.Graphics.Forms
             set
             {
                 this.m_dock = value;
+                var p_size = new Vector2f(0, 0);
+                var margin = this.Margin;
+                var p_zero = new Vector2f(0, 0);
+                if (this.m_parent != null)
+                {
+                    var p_padding = this.m_parent.Padding;
+                    p_zero = new Vector2f(
+                            p_padding.Left + margin.Left,
+                            p_padding.Top + margin.Top);
+                    p_size = this.m_parent.Size - new Vector2f(
+                                p_padding.Right + margin.Right + p_zero.X,
+                                p_padding.Bottom + margin.Bottom + p_zero.Y);
+                }
+
                 switch (this.m_dock)
                 {
                     case Dock.None:
                         break;
                     case Dock.HorizontalUnclipped:
                         if (this.m_parent != null)
-                            this.m_size.X = this.m_parent.Size.X;
-                        this.m_position.X = 0;
+                            this.m_size.X = p_size.X;
+                        this.m_position.X = p_zero.X;
                         break;
                     case Dock.VerticallUnclipped:
                         if (this.m_parent != null)
-                            this.m_size.Y = this.m_parent.Size.Y;
-                        this.m_position.Y = 0;
+                            this.m_size.Y = p_size.Y;
+                        this.m_position.Y = p_zero.Y;
                         break;
                     case Dock.Fill:
                         if (this.m_parent != null)
-                            this.m_size = this.m_parent.Size;
-                        this.m_position = new Vector2f(0, 0);
+                            this.m_size = p_size;
+                        this.m_position = p_zero;
                         break;
                     case Dock.HorizontalMiddle:
-                        this.m_position.X = 0;
+                        this.m_position.X = p_zero.X;
                         if (this.m_parent != null)
                         {
-                            this.m_size.X = this.m_parent.Size.X;
-                            this.m_position.Y = this.m_parent.Size.Y / 2 - this.m_size.Y / 2;
+                            this.m_size.X = p_size.X;
+                            this.m_position.Y = p_size.Y / 2 - this.m_size.Y / 2 + p_zero.Y;
                         }
                         break;
                     case Dock.VerticalMiddle:
-                        this.m_position.Y = 0;
+                        this.m_position.Y = p_zero.Y;
                         if (this.m_parent != null)
                         {
-                            this.m_size.Y = this.m_parent.Size.Y;
-                            this.m_position.X = this.m_parent.Size.X / 2 - this.m_size.X / 2;
+                            this.m_size.Y = p_size.Y;
+                            this.m_position.X = p_size.X / 2 - this.m_size.X / 2 + p_zero.X;
                         }
                         break;
                     case Dock.HorizontalTop:
-                        this.m_position = new Vector2f(0, 0);
+                        this.m_position = p_zero;
                         if (this.m_parent != null)
-                            this.m_size.X = this.m_parent.Size.X;
+                            this.m_size.X = p_size.X;
                         break;
                     case Dock.VerticalLeft:
-                        this.m_position = new Vector2f(0, 0);
+                        this.m_position = p_zero;
                         if (this.m_parent != null)
-                            this.m_size.Y = this.m_parent.Size.Y;
+                            this.m_size.Y = p_size.Y;
                         break;
                     case Dock.HorizontalBottom:
-                        this.m_position.X = 0;
+                        this.m_position.X = p_zero.X;
                         if (this.m_parent != null)
                         {
-                            this.m_size.X = this.m_parent.Size.X;
-                            this.m_position.Y = this.m_parent.Size.Y - this.m_size.Y;
+                            this.m_size.X = p_size.X;
+                            this.m_position.Y = p_size.Y - this.m_size.Y + p_zero.Y;
                         }
                         break;
                     case Dock.VerticalRight:
-                        this.m_position.Y = 0;
+                        this.m_position.Y = p_zero.Y;
                         if (this.m_parent != null)
                         {
-                            this.m_size.Y = this.m_parent.Size.Y;
-                            this.m_position.X = this.m_parent.Size.X - this.m_size.X;
+                            this.m_size.Y = p_size.Y;
+                            this.m_position.X = p_size.X - this.m_size.X + p_zero.X;
                         }
+                        break;
+                    case Dock.Middle:
+                        if (this.m_parent != null)
+                            this.m_position = p_size / 2 - this.m_size / 2 + p_zero;
                         break;
                     default:
                         throw new NotImplementedException();
@@ -119,6 +137,9 @@ namespace GraphicsFundation.Graphics.Forms
                 this.Changed?.Invoke();
             }
         }
+
+        public virtual Padding Padding { get; set; }
+        public virtual Padding Margin { get; set; }
 
         public virtual FloatRect Bounds => new FloatRect(this.GlobalPosition, this.Size);
 
