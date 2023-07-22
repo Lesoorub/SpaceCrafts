@@ -216,14 +216,19 @@ namespace GraphicsFundation.Graphics.Forms
 
         public virtual Control? GetHovered(int x, int y)
         {
-            foreach (var child in this.Childrens)
+            if (this.IsHoverable)
             {
-                var c = child.GetHovered(x, y);
-                if (c != null)
-                    return c;
+                for (int i = this.Childrens.Count - 1; i >= 0; i--)
+                {
+                    var child = this.Childrens[index: i];
+                    var c = child.GetHovered(x, y);
+                    if (c != null)
+                        return c;
+                }
+
+                if (this.IsHover(x, y))
+                    return this;
             }
-            if (this.IsHoverable && this.IsHover(x, y))
-                return this;
             return null;
         }
 

@@ -1,5 +1,4 @@
 ﻿using SFML.Graphics;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace GraphicsFundation.Graphics.Forms
 {
@@ -18,16 +17,14 @@ namespace GraphicsFundation.Graphics.Forms
 
         public Button()
         {
-            this.Background.FillColor = this.NormalBackColor;
-            this.Background.OutlineColor = this.NormalForeColor;
+            this.UpdateColors();
             this.Background.OutlineThickness = 1;
             this.Background.IsHoverable = false;
             this.AddChild(this.Background);
 
-            this.Label.ForeColor = this.NormalForeColor;
-            this.Label.IsHoverable = false;
             this.Label.Horizontal = Label.HorizontalAligment.Middle;
             this.Label.Vertical = Label.VerticalAligment.Middle;
+            this.Label.IsHoverable = false;
             this.AddChild(this.Label);
 
             this.Background.Dock = Dock.Fill;
@@ -37,6 +34,14 @@ namespace GraphicsFundation.Graphics.Forms
             this.MouseLeave += this.OnMouseLeave;
             this.MousePressed += this.OnMousePressed;
             this.MouseReleased += this.OnMouseReleased;
+        }
+
+        public void UpdateColors()
+        {
+            this.Background.FillColor = this.NormalBackColor;
+            this.Background.OutlineColor = this.NormalForeColor;
+
+            this.Label.ForeColor = this.NormalForeColor;
         }
 
         private void OnMouseEnter(object? sender, EventArgs e)

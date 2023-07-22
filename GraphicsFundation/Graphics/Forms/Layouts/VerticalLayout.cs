@@ -14,7 +14,7 @@ namespace GraphicsFundation.Graphics.Forms.Layouts
         public override void Update(float deltaTime)
         {
             base.Update(deltaTime);
-            float sumHeigth = this.Controls.Sum(x => x.Size.Y + this.Spacing) - this.Spacing;
+            float sumHeigth = this.Controls.Sum(x => x.Size.Y + this.Spacing + x.Margin.Top) - this.Spacing;
             var controls = this.Controls;
             foreach (var child in controls)
                 child.Dock = Dock.None;
@@ -33,6 +33,7 @@ namespace GraphicsFundation.Graphics.Forms.Layouts
             {
                 ref var child = ref controls[k];
                 child.LocalPosition = new Vector2f(zero.X, cursor);
+                child.Size = new Vector2f(this.Size.X - this.Margin.Left - this.Margin.Right, child.Size.Y);
                 cursor += child.Size.Y + this.Spacing + child.Margin.Top + child.Margin.Bottom;
             }
         }

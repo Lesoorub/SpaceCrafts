@@ -14,6 +14,13 @@ namespace GraphicsFundation.Graphics.Forms
         Control? m_lastPressedControl;
         Mouse.Button? m_lastPressedMouseButton;
 
+        Vector2i m_mousePosition;
+        public Vector2i MousePosition
+        {
+            get => this.m_mousePosition;
+            private set => this.m_mousePosition = value + (Vector2i)this.LocalPosition;
+        }
+
         public Form(ClientWindow window)
         {
             this.window = window;
@@ -27,8 +34,8 @@ namespace GraphicsFundation.Graphics.Forms
 
         private void Window_MouseButtonReleased(object? sender, MouseButtonEventArgs e)
         {
-            var x = e.X + (int)this.LocalPosition.X;
-            var y = e.Y + (int)this.LocalPosition.Y;
+            var x = this.MousePosition.X;
+            var y = this.MousePosition.Y;
             this.ProcessMouseReleasedEvent(x, y, e.Button);
             if (this.m_lastPressedMouseButton == e.Button &&
                 this.m_lastPressedControl != null &&
@@ -39,8 +46,8 @@ namespace GraphicsFundation.Graphics.Forms
         }
         private void Window_MouseButtonPressed(object? sender, MouseButtonEventArgs e)
         {
-            var x = e.X + (int)this.LocalPosition.X;
-            var y = e.Y + (int)this.LocalPosition.Y;
+            var x = this.MousePosition.X;
+            var y = this.MousePosition.Y;
             this.ProcessMousePressedEvent(x, y, e.Button);
             this.m_lastPressedControl = this.GetHovered(x, y);
             this.m_lastPressedMouseButton = e.Button;
@@ -48,7 +55,8 @@ namespace GraphicsFundation.Graphics.Forms
 
         private void Window_MouseMoved(object? sender, MouseMoveEventArgs e)
         {
-            this.ProcessMouseMovedEvent(e.X + (int)this.LocalPosition.X, e.Y + (int)this.LocalPosition.Y);
+            this.MousePosition = new Vector2i(e.X, e.Y);
+            this.ProcessMouseMovedEvent(this.MousePosition.X, this.MousePosition.Y);
         }
 
 
