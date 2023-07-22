@@ -18,6 +18,8 @@ namespace GraphicsFundation.Graphics.Forms
         private Vector2f m_movingOffset;
         private Control? m_movingControl;
 
+        public event EventHandler<Vector2u>? Resized;
+
         public Vector2i MousePosition
         {
             get => this.m_mousePosition;
@@ -70,10 +72,11 @@ namespace GraphicsFundation.Graphics.Forms
             this.CorrectFormPosition();
         }
 
-        private void Window_OnResized(object? sender, SFML.Window.SizeEventArgs e)
+        private void Window_OnResized(object? sender, SizeEventArgs e)
         {
             this.Size = (Vector2f)this.window.Size;
             this.CorrectFormPosition();
+            this.Resized?.Invoke(this, this.window.Size);
         }
 
         private void CorrectFormPosition()
