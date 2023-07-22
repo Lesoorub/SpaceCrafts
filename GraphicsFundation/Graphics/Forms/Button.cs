@@ -1,4 +1,5 @@
 ﻿using SFML.Graphics;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace GraphicsFundation.Graphics.Forms
 {

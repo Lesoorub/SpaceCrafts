@@ -21,8 +21,8 @@ namespace ClientApplication.Scenes
 
         public override void Update(float deltaTime)
         {
-            this.window.CameraPosition += new Vector2f(-1f, 0);
-            if (this.label1 == null) return;
+            //this.window.CameraPosition += new Vector2f(-1f, 0);
+            if (this.label1 == null || this.rect2 == null) return;
             var b = this.label1.Bounds;
             this.rect2.GlobalPosition = new Vector2f(b.Left, b.Top);
             this.rect2.Size = new Vector2f(b.Width, b.Height);
@@ -30,7 +30,7 @@ namespace ClientApplication.Scenes
 
         public override void Draw(RenderTarget target, RenderStates states)
         {
-            target.Draw(this.rect, states);
+            //target.Draw(this.rect, states);
             base.Draw(target, states);
         }
     }

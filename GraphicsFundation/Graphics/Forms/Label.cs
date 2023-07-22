@@ -6,7 +6,7 @@ namespace GraphicsFundation.Graphics.Forms
 {
     public class Label : Control
     {
-        static Font s_defaultFont = new Font(Resources.consolas);
+        static Font s_defaultFont = new Font(Properties.Resources.consolas);
         private Text text = new Text(string.Empty, Label.s_defaultFont);
         public HorizontalAligment Horizontal;
         public VerticalAligment Vertical;
