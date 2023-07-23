@@ -141,6 +141,7 @@ namespace GraphicsFundation.Graphics.Forms
         }
 
         public virtual Padding Padding { get; set; }
+
         public virtual Padding Margin { get; set; }
 
         public virtual FloatRect Bounds => new FloatRect(this.GlobalPosition, this.Size);

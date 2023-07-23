@@ -1,4 +1,5 @@
-﻿using ClientApplication.Core.Scene;
+﻿using System.Runtime.CompilerServices;
+using ClientApplication.Core.Scene;
 using ClientApplication.Forms;
 using ClientApplication.Graphics;
 using ClientApplication.Properties;
@@ -13,9 +14,22 @@ public static class Program
     {
         using (var window = new ClientWindow())
         {
+            window.Displayed += Window_Displayed;
+
             SceneManager.SetScene(new MainMenu(window));
             window.Drawable = SceneManager.Scene;
             window.Run();
+
+            window.Displayed -= Window_Displayed;
+        }
+    }
+
+    private static void Window_Displayed(object? sender, float e)
+    {
+        if (sender is ClientWindow window)
+        {
+            SceneManager.TrySwitchScene();
+            window.Drawable = SceneManager.Scene;
         }
     }
 }

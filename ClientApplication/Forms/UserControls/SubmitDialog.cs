@@ -21,6 +21,18 @@ namespace ClientApplication.Forms.UserControls
         Button yesBtn;
         Button noBtn;
 
+        public string TitleText
+        {
+            get => this.headerTitleLabel.Text;
+            set => this.headerTitleLabel.Text = value;
+        }
+
+        public string BodyText
+        {
+            get => this.bodyText.Text;
+            set => this.bodyText.Text = value;
+        }
+
         public event Action<ChoiseResult>? Choised;
 
         public SubmitDialog()
@@ -48,7 +60,10 @@ namespace ClientApplication.Forms.UserControls
                 Dock = Dock.VerticalRight,
             };
             this.cancelBtn.Background.OutlineThickness = 0;
-            this.cancelBtn.Background.FillColor = Color.Transparent;
+            this.cancelBtn.NormalBackColor = Color.Transparent;
+            this.cancelBtn.NormalForeColor = Color.White;
+            this.cancelBtn.HoveredBackColor = new Color(0xFFFFFF33);
+            this.cancelBtn.SetState(Button.State.Normal);
             this.cancelBtn.Label.FontSize = 14;
             this.cancelBtn.Label.Text = "X";
             this.cancelBtn.Click += this.CancelBtn_Click;
@@ -63,6 +78,7 @@ namespace ClientApplication.Forms.UserControls
                 Dock = Dock.Fill,
                 Margin = new Padding(left: 0, top: 0, right: this.cancelBtn.Size.X, bottom: 0),
             };
+
             //
             // Body
             //

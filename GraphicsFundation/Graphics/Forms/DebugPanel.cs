@@ -23,6 +23,7 @@ namespace GraphicsFundation.Graphics.Forms
         public Button ToggleSizeView;
 
         public Label TypeLabel;
+        public Label BoundsLabel;
         public Label ChildCountLabel;
 
         private VertexArray boundsView;
@@ -115,6 +116,12 @@ namespace GraphicsFundation.Graphics.Forms
             this.TypeLabel.Vertical = Label.VerticalAligment.Top;
             this.TypeLabel.Size = new Vector2f(0, 15);
 
+            this.BoundsLabel = new Label();
+            this.BoundsLabel.Parent = this.BodyLayout;
+            this.BoundsLabel.FontSize = 14;
+            this.BoundsLabel.Vertical = Label.VerticalAligment.Top;
+            this.BoundsLabel.Size = new Vector2f(0, 15);
+
             this.ChildCountLabel = new Label();
             this.ChildCountLabel.Parent = this.BodyLayout;
             this.ChildCountLabel.FontSize = 14;
@@ -188,6 +195,8 @@ namespace GraphicsFundation.Graphics.Forms
         public void UpdateInfo(Control target)
         {
             this.TypeLabel.Text = $"Type: {target.GetType().Name}";
+            var b = target.Bounds;
+            this.BoundsLabel.Text = $"Bounds: [X={b.Left:N2}, Y={b.Top:N2}, W={b.Width:N2}, H={b.Height:N2}]";
             var c = target.Controls;
             this.ChildCountLabel.Text = $"Childrens.Length: {c.Length}\n {string.Join("\n ", c.Select(x => x.GetType().Name))}".TrimEnd();
 

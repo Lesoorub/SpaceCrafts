@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using SFML.Graphics;
 using SFML.Window;
 using SFML.System;
+using System.Diagnostics;
 
 namespace ClientApplication.Graphics
 {
@@ -44,6 +45,7 @@ namespace ClientApplication.Graphics
         public event EventHandler<MouseMoveEventArgs>? MouseMoved;
         public event EventHandler<MouseButtonEventArgs>? MouseButtonReleased;
         public event EventHandler<MouseButtonEventArgs>? MouseButtonPressed;
+        public event EventHandler<float>? Displayed;
 
         #endregion
 
@@ -66,6 +68,7 @@ namespace ClientApplication.Graphics
         /// </summary>
         public void Run()
         {
+            Stopwatch frameTime = Stopwatch.StartNew();
             while (this.window.IsOpen)
             {
                 this.window.Clear(Color.Black);
@@ -73,6 +76,9 @@ namespace ClientApplication.Graphics
                 if (this.Drawable != null)
                     this.window.Draw(this.Drawable);
                 this.window.Display();
+                var deltaTime = (float)frameTime.ElapsedTicks / TimeSpan.TicksPerMillisecond;
+                frameTime.Restart();
+                this.Displayed?.Invoke(this, deltaTime);
             }
         }
 

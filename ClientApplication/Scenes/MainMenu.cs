@@ -28,7 +28,7 @@ namespace ClientApplication.Scenes
 
         public override void Dispose()
         {
-
+            this.m_menu.Dispose();
         }
     }
 }
