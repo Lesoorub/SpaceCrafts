@@ -76,6 +76,13 @@ namespace ClientApplication.Graphics
             }
         }
 
+        public void Close()
+        {
+            this.OnClosing?.Invoke();
+            this.window.Close();
+            this.OnClosed?.Invoke();
+        }
+
         public void Dispose()
         {
             this.window.Closed -= this.Window_Closed;
@@ -129,9 +136,7 @@ namespace ClientApplication.Graphics
 
         private void Window_Closed(object? sender, EventArgs e)
         {
-            this.OnClosing?.Invoke();
-            this.window.Close();
-            this.OnClosed?.Invoke();
+            this.Close();
         }
 
         #endregion

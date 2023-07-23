@@ -244,10 +244,17 @@ namespace GraphicsFundation.Graphics.Forms
                     child.Draw(target, states);
         }
 
+        public virtual void ParentChanged(Control who)
+        {
+            foreach (var child in this.Childrens)
+                child.ParentChanged(who);
+        }
+
         private void Control_ParentChanged()
         {
             this.Dock = this.m_dock;
             this.Changed?.Invoke();
+            this.ParentChanged(this);
         }
 
         public void ProcessMouseMovedEvent(int x, int y)

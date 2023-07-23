@@ -6,7 +6,7 @@ using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
 
-namespace ClientApplication.Scenes
+namespace ClientApplication.Forms
 {
     internal partial class Menu : Form
     {
